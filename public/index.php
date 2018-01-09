@@ -82,8 +82,6 @@ $app = new Application();
 // 注册 cache 缓存服务
 $app->providers['cache'] = new RedisCache();
 
-echo Cache::get('key');
-
 
 $controllerName = array_shift($params) ?: 'home';
 $methodName = array_shift($params) ?: 'index';
