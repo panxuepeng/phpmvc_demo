@@ -1,7 +1,10 @@
 <?php
-//namespace App\Http\Controllers;
+namespace app\Http\Controllers;
 
 class Controller
 {
-
+    public function __construct()
+    {
+        
+    }
 }
