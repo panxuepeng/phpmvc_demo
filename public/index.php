@@ -1,5 +1,5 @@
 <?php
-// 增加了类的自动加载
+// 增加服务提供者
 
 define('BASE_PATH', dirname(__DIR__));
 
@@ -10,7 +10,8 @@ $params = explode('/', $request_uri);
 
 class Application
 {
-    public $names = [];
+    // 服务提供者数组
+    public $providers = [];
 
     public function __construct() {
         spl_autoload_register(array($this, 'loaderClass'));
@@ -36,8 +37,52 @@ class Application
     }
 }
 
+class Cache
+{
+    public function __construct()
+    {
+        
+    }
+
+    protected static function getFacadeAccessor()
+    {
+        return 'cache';
+    }
+
+    public static function __callStatic($method, $arguments) 
+    {
+        global $app;
+
+        $fadeName = static::getFacadeAccessor();
+
+        $obj = $app->providers[$fadeName];
+
+        return call_user_func_array([$obj, $method], $arguments);
+        //return $obj->$method();
+    }
+}
+
+class RedisCache
+{
+    public function get($key)
+    {
+        return 'RedisCache->get()';
+    }
+
+    public function set($key, $value)
+    {
+        return 'RedisCache->set()';
+    }
+}
+
 
 $app = new Application();
+
+
+// 注册 cache 缓存服务
+$app->providers['cache'] = new RedisCache();
+
+echo Cache::get('key');
 
 
 $controllerName = array_shift($params) ?: 'home';
