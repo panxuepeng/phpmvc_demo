@@ -1,11 +1,10 @@
 <?php
-//namespace App\Http\Controllers;
+namespace app\Http\Controllers;
 
 class HomeController extends Controller
 {
-    public function index($a, $b = '')
+    public function index($a=null, $b = null)
     {
-
         echo 'index';
     }
 
