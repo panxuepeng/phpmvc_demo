@@ -1,6 +1,9 @@
 <?php
 namespace app\Http\Controllers;
 
+use app\Events\MyEvent;
+use app\Listeners\MyListener;
+
 class HomeController extends Controller
 {
     public function index($a=null, $b = null)
@@ -12,5 +15,11 @@ class HomeController extends Controller
     public function hello($a, $b)
     {
         echo 'hello';
+    }
+
+    public function event()
+    {
+        //echo 'event';
+        event(new MyEvent());
     }
 }

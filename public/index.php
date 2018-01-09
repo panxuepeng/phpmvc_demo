@@ -7,6 +7,8 @@ $request_uri = trim($_SERVER['REQUEST_URI'], "/");
 
 $params = explode('/', $request_uri);
 
+// 辅助函数
+require BASE_PATH.'/app/helpers.php';
 
 class Application
 {
