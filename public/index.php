@@ -1,5 +1,20 @@
 <?php
-// 增加中间件
+// 增加错误处理
+if (version_compare(PHP_VERSION, '7.0.0') === -1) {
+    exit('最低需要PHP 7.0');
+}
+
+error_reporting(E_ALL ^ E_NOTICE);
+
+set_exception_handler(function ($exception) {
+    var_dump($exception);
+    exit;
+});
+
+register_shutdown_function(function () {
+    var_dump(error_get_last());
+    exit;
+});
 
 define('BASE_PATH', dirname(__DIR__));
 
