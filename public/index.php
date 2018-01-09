@@ -1,5 +1,5 @@
 <?php
-// 增加服务提供者
+// 增加中间件
 
 define('BASE_PATH', dirname(__DIR__));
 
@@ -14,6 +14,12 @@ class Application
 {
     // 服务提供者数组
     public $providers = [];
+
+    // 中间件
+    public $middlewares = [];
+    public $globalMiddlewares = [];
+
+    public $globalMiddleware = null;
 
     public function __construct() {
         spl_autoload_register(array($this, 'loaderClass'));
@@ -84,6 +90,11 @@ $app = new Application();
 // 注册 cache 缓存服务
 $app->providers['cache'] = new RedisCache();
 
+// 注册 Hello 中间件
+$app->middlewares['hello'] = new app\Http\Middleware\Hello();
+$app->globalMiddlewares[] = new app\Http\Middleware\Hello();
+$app->globalMiddlewares[] = new app\Http\Middleware\Log();
+
 
 $controllerName = array_shift($params) ?: 'home';
 $methodName = array_shift($params) ?: 'index';
@@ -96,8 +107,25 @@ $controllerClass = "app\\Http\\Controllers\\$controllerName";
 $controller = new $controllerClass();
 
 if (method_exists($controller, $methodName)) {
-    
-    call_user_func_array([$controller, $methodName], $params);
+
+    // 执行全局中间件
+    // foreach($app->globalMiddlewares as $middleware) {
+    //     $middleware->handle();
+    // }
+
+    // 中间件嵌套执行
+    $next = function () use ($controller, $methodName, $params)
+    {
+        call_user_func_array([$controller, $methodName], $params);
+    };
+
+    foreach($app->globalMiddlewares as $middleware) {
+        $next = function() use ($next, $middleware) {
+            $middleware->handle($next);
+        };
+    }
+
+    $next();
 
 } else {
     exit($methodName . ' Action Not Found!');

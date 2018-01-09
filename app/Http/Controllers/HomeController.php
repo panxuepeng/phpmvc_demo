@@ -19,7 +19,8 @@ class HomeController extends Controller
 
     public function event()
     {
-        //echo 'event';
+        echo 'event';
+        //throw new \Exception('event');
         event(new MyEvent());
     }
 }

@@ -8,10 +8,10 @@ class Listener implements SplObserver
 {
     public function update(SplSubject $event)
     {
-        $this->handler($event);
+        $this->handle($event);
     }
 
-    public function handler(SplSubject $event)
+    public function handle(SplSubject $event)
     {
         var_dump($event);
     }
