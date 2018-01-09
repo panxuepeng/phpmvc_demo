@@ -6,6 +6,13 @@ $request_uri = trim($_SERVER['REQUEST_URI'], "/");
 $params = explode('/', $request_uri);
 
 
+
+
+
+
+
+
+
 $controllerName = array_shift($params) ?: 'home';
 $methodName = array_shift($params) ?: 'index';
 
