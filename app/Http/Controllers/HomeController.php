@@ -21,6 +21,8 @@ class HomeController extends Controller
     {
         echo 'event';
         //throw new \Exception('event');
+        require 'a.php';
+        //echo 1/0;
         event(new MyEvent());
     }
 }
