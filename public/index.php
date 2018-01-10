@@ -132,9 +132,26 @@ $controllerName = ucfirst(strtolower($controllerName)) . 'Controller';
 
 $controllerClass = "app\\Http\\Controllers\\$controllerName";
 
-$controller = new $controllerClass();
+//$params = \app\Ioc::getParams($controllerClass);
+//var_dump($params);
+//exit;
+
+//$controller = new $controllerClass();
+
+$controller = \app\Ioc::getInstance($controllerClass);
 
 if (method_exists($controller, $methodName)) {
+
+    $methodParams = \app\Ioc::getParams($controllerClass, $methodName);
+    //var_dump($methodParams); exit;
+
+    foreach ($methodParams as $key => $param) {
+        if (!is_object($param)) {
+            $methodParams[$key] = array_shift($params);
+        }
+    }
+
+    //var_dump($methodParams); exit;
 
     // 执行全局中间件
     // foreach($app->globalMiddlewares as $middleware) {
@@ -142,9 +159,9 @@ if (method_exists($controller, $methodName)) {
     // }
 
     // 中间件嵌套执行
-    $next = function () use ($controller, $methodName, $params)
+    $next = function () use ($controller, $methodName, $methodParams)
     {
-        call_user_func_array([$controller, $methodName], $params);
+        call_user_func_array([$controller, $methodName], $methodParams);
     };
 
     foreach($app->globalMiddlewares as $middleware) {

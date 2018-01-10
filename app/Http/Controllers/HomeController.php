@@ -6,6 +6,12 @@ use app\Listeners\MyListener;
 
 class HomeController extends Controller
 {
+
+    public function __construct(MyEvent $event)
+    {
+        
+    }
+
     public function index($a=null, $b = null)
     {
         //echo 'index';
@@ -17,11 +23,12 @@ class HomeController extends Controller
         echo 'hello';
     }
 
-    public function event()
+    public function event(MyEvent $event, $id=1)
     {
+        echo $id;
         echo 'event';
         //throw new \Exception('event');
-        require 'a.php';
+        //require 'a.php';
         //echo 1/0;
         event(new MyEvent());
     }
