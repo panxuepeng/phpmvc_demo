@@ -9,6 +9,7 @@ class HomeController extends Controller
     public function index($a=null, $b = null)
     {
         //echo 'index';
+        equire 'a.php';
         echo \Cache::get('key');
     }
 
