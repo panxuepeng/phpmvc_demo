@@ -14,6 +14,6 @@ class Log
         //throw new \Exception('log');
         
         $next();
-        echo 'Log Middleware!';
+        echo '<br>Log Middleware!';
     }
 }

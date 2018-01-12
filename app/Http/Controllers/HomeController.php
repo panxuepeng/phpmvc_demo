@@ -8,8 +8,8 @@ class HomeController extends Controller
 {
     public function index($a=null, $b = null)
     {
-        //echo 'index';
-        echo \Cache::get('key');
+        echo '中间件';
+        //echo \Cache::get('key');
     }
 
     public function hello($a, $b)

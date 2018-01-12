@@ -19,18 +19,13 @@ class Application
     public $middlewares = [];
     public $globalMiddlewares = [];
 
-    public $globalMiddleware = null;
-
     public function __construct() {
         spl_autoload_register(array($this, 'loaderClass'));
     }
 
     private function loaderClass($className) {
 
-
         $className = str_replace('\\', '/', $className);
-
-        //include_once $className . '.php';
 
         $someClass = BASE_PATH.'/'.$className.'.php';
 

@@ -14,6 +14,6 @@ class Hello
         //throw new \Exception('hello');
         
         $next();
-        echo 'hello Middleware!';
+        echo '<br>hello Middleware!';
     }
 }
