@@ -37,6 +37,7 @@ class Application
     }
 }
 
+/*
 class Cache
 {
     public function __construct()
@@ -74,13 +75,13 @@ class RedisCache
         return 'RedisCache->set()';
     }
 }
-
+*/
 
 $app = new Application();
 
 
 // 注册 cache 缓存服务
-$app->providers['cache'] = new RedisCache();
+$app->providers['cache'] = new app\Support\RedisCache();
 
 
 $controllerName = array_shift($params) ?: 'home';
