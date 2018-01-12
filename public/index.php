@@ -1,5 +1,5 @@
 <?php
-// 增加服务提供者
+// 增加事件机制
 
 define('BASE_PATH', dirname(__DIR__));
 

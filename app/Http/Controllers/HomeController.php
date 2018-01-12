@@ -19,7 +19,6 @@ class HomeController extends Controller
 
     public function event()
     {
-        //echo 'event';
         event(new MyEvent());
     }
 }

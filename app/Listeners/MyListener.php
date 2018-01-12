@@ -7,6 +7,6 @@ class MyListener extends Listener
 {
     public function handler(SplSubject $event)
     {
-        echo $event->name;
+        echo "MyListener: {$event->name}";
     }
 }
