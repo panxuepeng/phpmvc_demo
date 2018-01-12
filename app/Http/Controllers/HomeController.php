@@ -3,10 +3,9 @@
 
 class HomeController extends Controller
 {
-    public function index($a, $b = '')
+    public function index($a = null, $b = '')
     {
-
-        echo 'index';
+        echo "index: $a $b";
     }
 
     public function hello($a, $b)
