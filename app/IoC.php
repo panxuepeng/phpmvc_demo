@@ -5,7 +5,6 @@ use ReflectionClass;
 
 class IoC
 {
-
     // 获得类的对象实例
     public static function getInstance($className)
     {

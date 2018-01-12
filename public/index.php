@@ -1,5 +1,6 @@
 <?php
-// 增加错误处理
+// 增加依赖注入
+
 if (version_compare(PHP_VERSION, '7.0.0') === -1) {
     exit('最低需要PHP 7.0');
 }
