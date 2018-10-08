@@ -5,7 +5,9 @@ use ReflectionClass;
 
 class IoC
 {
-    // 获得类的对象实例
+    // 获得一个类的实例对象
+    // $controllerClass = "app\\Http\\Controllers\\$controllerName";
+    // 如 $controller = \app\Ioc::getInstance($controllerClass);
     public static function getInstance($className)
     {
         $params = self::getParams($className);
@@ -16,41 +18,50 @@ class IoC
     }
 
     /**
-     * 获得类的方法参数(只获得有类型的参数)
+     * 获得类方法的参数列表
+     * 如 $methodParams = \app\Ioc::getParams($controllerClass, $methodName);
      */
     public static function getParams($className, $methodName = '__construct')
     {
-        $mainClass = new ReflectionClass($className);
-        $mainParams = [];
+        // http://php.net/manual/zh/class.reflectionclass.php
+        $refClass = new ReflectionClass($className);
+        $refClassArgs = [];
 
-        if ($mainClass->hasMethod($methodName)) {
-            $constructor = $mainClass->getMethod($methodName);
+        // http://php.net/manual/zh/reflectionclass.hasmethod.php
+        if ($refClass->hasMethod($methodName)) {
+
+            // http://php.net/manual/zh/reflectionclass.getmethod.php
+            $methodReflection = $refClass->getMethod($methodName);
             
-            $params = $constructor->getParameters();
+            // http://php.net/manual/zh/reflectionfunctionabstract.getparameters.php
+            $params = $methodReflection->getParameters();
             //var_dump($params);exit;
 
-            if (count($params) > 0) {
-                foreach ($params as $key => $param) {
-                    $paramClass = $param->getClass();
-                    //var_dump($paramClass);
+            foreach ($params as $key => $param) {
+                // http://php.net/manual/zh/reflectionparameter.getclass.php
+                // 当一个参数不是类，而是普通参数，则返回值是 null
+                $argClass = $param->getClass();
+                //var_dump($argClass);
 
-                    if ($paramClass) {
+                if ($argClass) {
+                    // 递归处理参数类的参数
 
-                        $paramClassName = $paramClass->getName();
+                    // http://php.net/manual/zh/reflectionparameter.getname.php
+                    $argClassName = $argClass->getName();
+                    
+                    $_refClass = new ReflectionClass($argClassName);
+                    $_refClassParams = self::getParams($argClassName);
 
-                        $_mainParams = self::getParams($paramClassName);
-
-                        $_mainClass = new ReflectionClass($paramClassName);
-
-                        $mainParams[] = $_mainClass->newInstanceArgs($_mainParams);
-                        
-                    } else {
-                        $mainParams[] = $param->getDefaultValue();
-                    }
+                    // http://php.net/manual/zh/reflectionclass.newinstanceargs.php
+                    $refClassArgs[] = $_refClass->newInstanceArgs($_refClassParams);
+                } else {
+                    // http://php.net/manual/zh/reflectionparameter.getdefaultvalue.php
+                    $refClassArgs[] = $param->getDefaultValue();
                 }
             }
+            
         }
 
-        return $mainParams;
+        return $refClassArgs;
     }
 }

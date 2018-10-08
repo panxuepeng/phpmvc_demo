@@ -24,7 +24,7 @@ register_shutdown_function(function () {
 
     if ($error) {
         echo 'register_shutdown_function';
-        var_dump();
+        var_dump($error);
         exit;
     }
 });
@@ -177,4 +177,5 @@ if (method_exists($controller, $methodName)) {
     exit($methodName . ' Action Not Found!');
 }
 
+//include 'a.php';
 

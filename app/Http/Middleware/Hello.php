@@ -12,8 +12,8 @@ class Hello
     public function handle(\Closure $next)
     {
         //throw new \Exception('hello');
-        
+        echo '<br>hello Middleware!<br>';
         $next();
-        echo 'hello Middleware!';
+        
     }
 }

@@ -13,7 +13,8 @@ class Log
     {
         //throw new \Exception('log');
         
+        
+        echo '<br>Log Middleware!<br>';
         $next();
-        echo 'Log Middleware!';
     }
 }
